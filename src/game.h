@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "map.h"
 
 class Game {
  public:
@@ -14,10 +15,12 @@ class Game {
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
+  void SetGameMap(Map map) { gameMap = map; }
 
  private:
   Snake snake;
   SDL_Point food;
+  Map gameMap;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -26,7 +29,7 @@ class Game {
 
   int score{0};
 
-  void PlaceFood();
+  void PlaceFood(Map &map);
   void Update();
 };
 

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "SDL.h"
+#include "map.h"
 
 class Snake {
  public:
@@ -14,7 +15,7 @@ class Snake {
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
 
-  void Update();
+  void Update(Map &map);
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -29,8 +30,8 @@ class Snake {
   std::vector<SDL_Point> body;
 
  private:
-  void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+  void UpdateHead(SDL_Point &current_head_cell, Map &map);
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell, Map &map);
 
   bool growing{false};
   int grid_width;

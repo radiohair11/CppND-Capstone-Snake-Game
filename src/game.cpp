@@ -1,13 +1,15 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "map.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
-  PlaceFood();
+      random_h(0, static_cast<int>(grid_height - 1)),
+      gameMap("map1.txt") {  
+    PlaceFood(gameMap);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -19,13 +21,17 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+  if(gameMap.IsEmpty()) {
+    std::cout << "gameMap is empty!\n";
+  }
+
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, gameMap);
 
     frame_end = SDL_GetTicks();
 
@@ -50,17 +56,23 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::PlaceFood() {
+void Game::PlaceFood(Map &map) {
+
   int x, y;
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
-    // food.
-    if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
-      return;
+    if (!snake.SnakeCell(x,y)) {
+      for ( SDL_Point &wall : map.walls) {
+        if (x == wall.x && y == wall.y) {
+          break;
+        } else {
+          food.x = x;
+          food.y = y;
+          //std::cout << "Food x = " << food.x << ", Food y = " << food.y << '\n';
+          return;
+        }
+      }
     }
   }
 }
@@ -68,7 +80,7 @@ void Game::PlaceFood() {
 void Game::Update() {
   if (!snake.alive) return;
 
-  snake.Update();
+  snake.Update(gameMap);
 
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
@@ -76,7 +88,7 @@ void Game::Update() {
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
     score++;
-    PlaceFood();
+    PlaceFood(gameMap);
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;

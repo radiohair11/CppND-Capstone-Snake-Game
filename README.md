@@ -1,3 +1,19 @@
+## Student README starts here
+
+- I am choosing to add a feature to the Snake game as my capstone project
+    I am creating a Map class that will read a .txt file that contains a 32x32 block of 1's and 0's. This will render a map of walls on the snake game.
+    The walls are colored cyan. Don't touch them or the snake will die!
+    I've provided two maps for testing.
+
+# Student Notes
+- Must copy a map.txt file into build dir before running game
+- You are welcome to make a custom map
+- To make things easy, all maps should be 32 x 32
+- Put name of map in line 11 of game.cpp to choose map
+
+TODO:
+- Map::GetObjectAt() is bugged
+
 # CPPND: Capstone Snake Game Example
 
 This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
