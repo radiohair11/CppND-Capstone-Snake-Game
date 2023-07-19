@@ -3,6 +3,8 @@
 Map::Map(std::string mapFile) {
     if(!this->ReadMap(mapFile)){
         std::cout << "Could not read map!\n";
+        std::cout << "You must copy the map into the build dir of this project\n";
+        
     };
     
 }
