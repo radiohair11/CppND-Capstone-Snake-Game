@@ -59,23 +59,33 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 void Game::PlaceFood(Map &map) {
 
   int x, y;
+  SDL_Point tryFoodAt;
+  bool testFailed = false;
+
   while (true) {
+    testFailed = false;
     x = random_w(engine);
     y = random_h(engine);
+    std::cout << "Trying point x: " << x << ", y: " << y << '\n';
+    tryFoodAt.x = x;
+    tryFoodAt.y = y;
     if (!snake.SnakeCell(x,y)) {
-      for ( SDL_Point &wall : map.walls) {
-        if (x == wall.x && y == wall.y) {
-          break;
-        } else {
-          food.x = x;
-          food.y = y;
-          //std::cout << "Food x = " << food.x << ", Food y = " << food.y << '\n';
-          return;
+      for ( SDL_Point &wall : map.walls ) {
+        if (tryFoodAt.x == wall.x && tryFoodAt.y == wall.y) {
+          std::cout << "Tried to place food on wall, choosing another point\n";
+          testFailed = true;
         }
       }
     }
+    if (!testFailed) {
+      food.x = x;
+      food.y = y;
+      //std::cout << "Food x = " << food.x << ", Food y = " << food.y << '\n';
+      return;
+    }
   }
 }
+
 
 void Game::Update() {
   if (!snake.alive) return;
