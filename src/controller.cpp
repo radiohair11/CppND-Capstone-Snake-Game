@@ -35,6 +35,7 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
           ChangeDirection(snake, Snake::Direction::kRight,
                           Snake::Direction::kLeft);
           break;
+        // TODO: Use these inputs to change the color of the snake and only allow the snake to eat food that matches the color of the snake
         case SDLK_a:
           // TODO: Change color of snake here
           break;

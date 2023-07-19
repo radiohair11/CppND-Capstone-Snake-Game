@@ -5,6 +5,42 @@
     The walls are colored cyan. Don't touch them or the snake will die!
     I've provided two maps for testing.
 
+# Rubric Items
+
+1. Loops, Functions, I/O: The project demonstrates an understanding of C++ functions and control structures.
+
+Location: Game.cpp, line 59
+
+I've updated the Gnake PlaceFood() function to check if the food will be placed on a wall, and then picking another location for the food. This required iterating over the walls vector with a for loop and modifying the control flow to pick another spot for the food if the first one was occupied by a wall.
+
+2. Loops, Functions, I/O: The project reads data from a file and process the data, or the program writes data to a file.
+
+Location: map.cpp, line 20
+
+I've added a Map class that reads in a .txt file that defines the map of the game. The function returns a boolean which can be used at the start of the game to check that the map was read successfully.
+
+3. Object Oriented Programming: The project uses Object Oriented Programming techniques.
+
+Location: map.cpp, map.h
+
+The map class is used to compose a Game object. When the game is instantiated, it reads in the map file. The map code contains a class enum that defines what type of objects can be on the map. There are functions to return the height and width of the map, and a function to return an object at a map coordinate.
+
+There are many improvements that could be made here. The Height() and Width() functions could be used to change the size of the map, rather than hard coding those sizes in main(). The GetObjectAtPoint() function is also bugged. I've worked around it, but it would have been easier to use that function to check for walls in PlaceFood(), for example.
+
+4. Object Oriented Programming: Classes use appropriate access specifiers for class members.
+
+Location: map.h
+
+Map height, width, and the 2D vector map itself are all private. I would prefer the walls vector to be private as well. I chose to make it public so I could render it in the same was as the Snake body is rendered, which is with a public vector of SDL_Points.
+
+Access to private member variables is given through the Width(), Height() and GetObjectAtPoint() functions.
+
+5. Memory Management: The project makes use of references in function declarations.
+
+Location: snake.cpp, line 23 and game.cpp, line 59
+
+I've modified the Snake's UpdateHead() function and the Game's PlaceFood() functions to take a reference to the map. This is more efficient than passing a 2D vector of 1024 MapObjects.
+
 # Student Notes
 - Must copy a map.txt file into build dir before running game
 - You are welcome to make a custom map
@@ -12,7 +48,10 @@
 - Put name of map in line 11 of game.cpp to choose map
 
 TODO:
-- Map::GetObjectAt() is bugged
+- Map::GetObjectAt() is bugged. Had to find other ways to find if point was a wall
+- Make the map a smart pointer
+- Add snake color matching to food feature
+- Take in the name of the map as a command line argument
 
 # CPPND: Capstone Snake Game Example
 
