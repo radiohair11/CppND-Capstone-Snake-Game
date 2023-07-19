@@ -1,5 +1,14 @@
 # Student README starts here
 
+# INSTRUCTIONS FOR RUNNING
+1. mkdir build && cd build
+2. cmake ..
+3. make
+4. cp ../map1.txt .
+5. ./SnakeGame
+
+# Intro
+
 - I am choosing to add a feature to the Snake game as my capstone project
     I am creating a Map class that will read a .txt file that contains a 32x32 block of 1's and 0's. This will render a map of walls on the snake game.
     The walls are colored cyan. Don't touch them or the snake will die!
